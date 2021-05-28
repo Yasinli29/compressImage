@@ -1,4 +1,6 @@
 interface ICompressor {
+  file: File;
+  options: Partial<IOption>;
   getChangedImageTag: () => Promise<HTMLImageElement>;
   getChangedBase64: () => Promise<string>;
   getChangedFile: () => Promise<File>;
@@ -11,7 +13,6 @@ interface IOption {
   height: number;
   scale: number;
   quality: number;
-  // rotate: number;
   fileType: string;
 }
 
@@ -54,8 +55,8 @@ export default class implements ICompressor {
 
   async getChangedBase64() {
     const {
-      fileType = 'image/png',
-      quality = 1
+      fileType = this.file.type,
+      quality
     } = this.options
     const oCanvas = await this.getDrewCanvas()
     return oCanvas.toDataURL(fileType, quality)
@@ -64,7 +65,7 @@ export default class implements ICompressor {
   getChangedFile() {
     return new Promise<File>(async (resolve) => {
       const {
-        fileType = 'image/png',
+        fileType = this.file.type,
         quality
       } = this.options
 
