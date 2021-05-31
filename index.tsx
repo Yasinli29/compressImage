@@ -19,7 +19,7 @@ interface IOption {
 export default class implements ICompressor {
   file: File;
   options: Partial<IOption>;
-  constructor(file: File, options: Partial<IOption>) {
+  constructor(file: File, options: Partial<IOption> = {}) {
     this.file = file
     this.options = options
   }
